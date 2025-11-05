@@ -1,0 +1,30 @@
+services:
+    backend:
+        build: 
+            context: ./backEnd
+            dockerfile: Dockerfile
+        ports:
+            - "${PORT}:3000"
+        env_file:
+            - ./backEnd/.env
+        volumes:
+            - ./backEnd:/app
+        depends_on:
+            - db
+    db:
+        image: mysql:8.0
+        restart: always
+        ports:
+            - "${DB_PORT}:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD}
+            MYSQL_DATABASE: ${DB_NAME}
+            MYSQL_USER: ${DB_USER}
+            MYSQL_PASSWORD: ${DB_PASS}
+            MYSQL_HOST: ${DB_HOST}
+        env_file:
+            - .env
+        volumes:
+            - db_data:/var/lib/mysql
+volumes:
+    db_data:
