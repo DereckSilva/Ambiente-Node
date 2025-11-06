@@ -1,8 +1,16 @@
-FROM node:24.9.0
-
+FROM ubuntu:22.04
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
+
+RUN apt-get update && apt-get upgrade -y && apt-get install -y curl && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && apt-get install -y nodejs && \
+ apt-get install jq -y
+
 COPY . .
+COPY ./bash.sh /
+
+RUN chmod +x bash.sh
+
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
