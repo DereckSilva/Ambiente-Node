@@ -1,8 +1,5 @@
 import mysql from 'mysql';
 
-
-console.log(process.env.DB_USER)
-
 const connection = mysql.createConnection({
   host: 'db',
   user: process.env.DB_USER,
